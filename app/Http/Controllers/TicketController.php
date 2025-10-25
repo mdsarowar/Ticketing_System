@@ -69,12 +69,16 @@ class TicketController extends Controller
     public function show(Request $request, $id)
     {
 
-        $ticket = Ticket::with(['user', 'comments.user'])->findOrFail($id);
-//return $ticket;
+        $ticket = Ticket::with([
+            'user',
+            'comments.user',
+            'chatMessages.user' // Add this
+        ])->findOrFail($id);
+
         // Check authorization
-//        if ($request->user()->isCustomer() && $ticket->user_id !== $request->user()->id) {
-//            abort(403, 'Unauthorized access');
-//        }
+        if ($request->user()->isCustomer() && $ticket->user_id !== $request->user()->id) {
+            abort(403, 'Unauthorized access');
+        }
 
         return Inertia::render('Tickets/show', [
             'ticket' => $ticket,

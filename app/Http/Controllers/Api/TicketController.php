@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Sarowar\LaravelFileUpload\FileUpload;
 
 class TicketController extends Controller
 {
@@ -19,19 +20,18 @@ class TicketController extends Controller
         } else {
             $tickets = Ticket::where('user_id', $user->id)->latest()->get();
         }
-        return Inertia::render('Tickets/index', [
-            'tickets' => $tickets
-        ]);
 
-//        return response()->json([
-//            'success' => true,
-//            'data' => $tickets,
-//        ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $tickets,
+        ]);
     }
 
     // Create new ticket
     public function store(Request $request)
     {
+
         $request->validate([
             'subject' => 'required|string|max:255',
             'description' => 'required|string',
@@ -39,12 +39,11 @@ class TicketController extends Controller
             'priority' => 'required|in:low,medium,high,urgent',
             'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120', // 5MB max
         ]);
-
+//        return response('sar');
         $attachmentPath = null;
 
-        // Handle file upload
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('attachments', 'public');
+            $attachmentPath=FileUpload::fileUpload($request->file('attachment',),'attachment/');
         }
 
         $ticket = Ticket::create([
@@ -96,7 +95,7 @@ class TicketController extends Controller
             ], 403);
         }
 
-        $request->validate([
+        $validatedata= $request->validate([
             'subject' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
             'category' => 'sometimes|in:technical,billing,general,complaint,feature_request',
@@ -107,14 +106,18 @@ class TicketController extends Controller
 
         // Handle file upload
         if ($request->hasFile('attachment')) {
-            // Delete old attachment
-            if ($ticket->attachment) {
-                Storage::disk('public')->delete($ticket->attachment);
+            $filePath = public_path($ticket->attachment);
+
+            if (file_exists($filePath)) {
+                unlink($filePath);
             }
-            $ticket->attachment = $request->file('attachment')->store('attachments', 'public');
+//            $ticket->attachment = $request->file('attachment')->store('attachments', 'public');
+            $validatedata['attachment'] =FileUpload::fileUpload($request->file('attachment',),'attachment/');
+        }else{
+            $validatedata['attachment']=$ticket->attachment;
         }
 
-        $ticket->update($request->except(['attachment']));
+        $ticket->update($validatedata);
 
         return response()->json([
             'success' => true,
@@ -137,10 +140,11 @@ class TicketController extends Controller
         }
 
         // Delete attachment file
-        if ($ticket->attachment) {
-            Storage::disk('public')->delete($ticket->attachment);
-        }
+        $filePath = public_path( $ticket->attachment);
 
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
         $ticket->delete();
 
         return response()->json([

@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-7xl mx-auto">
             <!-- Header -->
             <div class="mb-6">
                 <Link href="/tickets" class="text-indigo-600 hover:text-indigo-700 font-medium inline-flex items-center gap-2 mb-4">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Content -->
+                <!-- Main Content (Left Column - 2/3) -->
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Ticket Details -->
                     <div class="bg-white rounded-lg shadow-md p-6">
@@ -67,7 +67,7 @@
                             <p class="text-sm font-medium text-gray-700 mb-2">Attachment: </p>
                             <img
                                 :src="`/${ticket.attachment}`"
-                                :alt="ticket.title"
+                                :alt="ticket.subject"
                                 class="max-w-md rounded-lg border shadow-sm"
                             />
                         </div>
@@ -79,13 +79,13 @@
 
                         <!-- Add Comment Form -->
                         <form @submit.prevent="submitComment" class="mb-6">
-              <textarea
-                  v-model="commentForm.comment"
-                  rows="3"
-                  placeholder="Add a comment..."
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none mb-3"
-                  required
-              ></textarea>
+                            <textarea
+                                v-model="commentForm.comment"
+                                rows="3"
+                                placeholder="Add a comment..."
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none mb-3"
+                                required
+                            ></textarea>
                             <button
                                 type="submit"
                                 :disabled="commentForm.processing"
@@ -115,7 +115,7 @@
                                             v-if="comment.user.role === 'admin'"
                                             class="text-xs px-2 py-1 bg-purple-100 text-purple-800 rounded-full"
                                         >
-                                          Admin
+                                            Admin
                                         </span>
                                     </div>
                                     <span class="text-sm text-gray-500">{{ formatDate(comment.created_at) }}</span>
@@ -130,7 +130,7 @@
                     </div>
                 </div>
 
-                <!-- Sidebar -->
+                <!-- Sidebar (Right Column - 1/3) -->
                 <div class="space-y-6">
                     <!-- Status Card -->
                     <div class="bg-white rounded-lg shadow-md p-6">
@@ -141,31 +141,31 @@
                                 <p class="text-sm text-gray-600 mb-1">Status</p>
                                 <span
                                     :class="[
-                    'inline-block px-3 py-1 text-sm rounded-full font-medium',
-                    getStatusColor(ticket.status)
-                  ]"
+                                        'inline-block px-3 py-1 text-sm rounded-full font-medium',
+                                        getStatusColor(ticket.status)
+                                    ]"
                                 >
-                  {{ formatStatus(ticket.status) }}
-                </span>
+                                    {{ formatStatus(ticket.status) }}
+                                </span>
                             </div>
 
                             <div>
                                 <p class="text-sm text-gray-600 mb-1">Priority</p>
                                 <span
                                     :class="[
-                    'inline-block px-3 py-1 text-sm rounded-full font-medium',
-                    getPriorityColor(ticket.priority)
-                  ]"
+                                        'inline-block px-3 py-1 text-sm rounded-full font-medium',
+                                        getPriorityColor(ticket.priority)
+                                    ]"
                                 >
-                  {{ ticket.priority.toUpperCase() }}
-                </span>
+                                    {{ ticket.priority.toUpperCase() }}
+                                </span>
                             </div>
 
                             <div>
                                 <p class="text-sm text-gray-600 mb-1">Category</p>
                                 <span class="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full font-medium">
-                  {{ formatCategory(ticket.category) }}
-                </span>
+                                    {{ formatCategory(ticket.category) }}
+                                </span>
                             </div>
 
                             <div>
@@ -179,6 +179,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Live Chat Section -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            Live Chat
+                        </h3>
+                        <ChatBox
+                            :ticket-id="ticket.id"
+                            :initial-messages="ticket.chat_messages || []"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,7 +202,8 @@
 <script setup>
 import { computed } from 'vue'
 import { useForm, Link, router, usePage } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import AppLayout from '../../layouts/AppLayout.vue'
+import ChatBox from '../../Component/ChatBox.vue'
 
 const props = defineProps({
     ticket: {

@@ -12,8 +12,9 @@ class CommentController extends Controller
     // Get all comments for a ticket
     public function index(Request $request, $ticketId)
     {
-        $ticket = Ticket::findOrFail($ticketId);
 
+        $ticket = Ticket::findOrFail($ticketId);
+        $data=Comment::where('ticket_id', $ticketId)->get();
         // Check authorization
         if ($request->user()->isCustomer() && $ticket->user_id !== $request->user()->id) {
             return response()->json([
@@ -24,7 +25,7 @@ class CommentController extends Controller
 
         $comments = Comment::where('ticket_id', $ticketId)
             ->with('user')
-            ->latest()
+//            ->latest()
             ->get();
 
         return response()->json([
@@ -37,7 +38,6 @@ class CommentController extends Controller
     public function store(Request $request, $ticketId)
     {
         $ticket = Ticket::findOrFail($ticketId);
-
         // Check authorization
         if ($request->user()->isCustomer() && $ticket->user_id !== $request->user()->id) {
             return response()->json([

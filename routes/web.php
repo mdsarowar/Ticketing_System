@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\DashboardController;
@@ -23,4 +24,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('tickets', TicketController::class);
     Route::post('tickets/{ticket}/comments', [CommentController::class, 'store'])->name('comments.store');
+    // Chat routes (Web - Inertia)
+    Route::post('tickets/{ticket}/chat', [ChatController::class, 'store'])->name('chat.store');
 });

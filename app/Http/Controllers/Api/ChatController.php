@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Models\Ticket;
