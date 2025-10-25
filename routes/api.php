@@ -19,7 +19,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 
     // Ticket routes
-    // Ticket routes - আলাদা name দিয়ে
     Route::apiResource('tickets', TicketController::class)->names([
         'index' => 'api.tickets.index',
         'store' => 'api.tickets.store',

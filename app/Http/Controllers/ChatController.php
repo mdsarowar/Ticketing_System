@@ -35,6 +35,7 @@ class ChatController extends Controller
         // Broadcast event
         broadcast(new MessageSent($chatMessage))->toOthers();
 
+
         return back();
     }
 }
