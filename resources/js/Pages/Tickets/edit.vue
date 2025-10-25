@@ -198,7 +198,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useForm, Link } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import AppLayout from '../../layouts/AppLayout.vue'
 
 const props = defineProps({
     ticket: {
