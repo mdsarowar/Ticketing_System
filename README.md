@@ -2,6 +2,8 @@
 # Customer Support Ticketing System
 A full-stack customer support ticketing system with real-time chat functionality built with Laravel, Vue.js, and Inertia.js.
 
+# Live link
+https://ticketingsystem-production-acd5.up.railway.app/
 
 ## Features
 
