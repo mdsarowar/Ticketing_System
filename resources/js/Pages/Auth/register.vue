@@ -122,7 +122,7 @@
 
 <script setup>
 import { useForm, Link } from '@inertiajs/vue3'
-import GuestLayout from '@/Layouts/GuestLayout.vue'
+import GuestLayout from '../../Layouts/GuestLayout.vue'
 
 const form = useForm({
     name: '',
