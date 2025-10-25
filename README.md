@@ -1,61 +1,133 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Customer Support Ticketing System
+A full-stack customer support ticketing system with real-time chat functionality built with Laravel, Vue.js, and Inertia.js.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Authentication & Authorization**
+    - Token-based authentication using Laravel Sanctum
+    - Two user roles: Admin and Customer
+    - Registration, Login, and Logout functionality
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Ticket Management**
+    - Create, Read, Update, Delete (CRUD) operations
+    - Fields: Subject, Description, Category, Priority, Status, Attachment
+    - Role-based access (Admins see all tickets, Customers see own tickets)
+    - Status tracking: Open, In Progress, Resolved, Closed
 
-## Learning Laravel
+- **Comments System**
+    - Both Admins and Customers can comment on tickets
+    - Edit and delete own comments
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Real-time Chat**
+    - WebSocket-based real-time messaging using Laravel Reverb
+    - Customer ↔ Admin communication
+    - Chat linked to specific tickets
+    - Message read receipts
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Responsive UI**
+    - Modern, clean interface built with Vue.js and Tailwind CSS
+    - Inertia.js for seamless SPA experience
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Tech Stack
 
-## Laravel Sponsors
+**Backend:**
+- Laravel 12
+- Laravel Sanctum (Authentication)
+- Laravel Reverb (WebSocket)
+- MySQL (Database)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Frontend:**
+- Vue 3
+- Inertia.js
+- Tailwind CSS
+- Laravel Echo & Pusher JS
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+## Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Prerequisites
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Setup Instructions
 
-## Security Vulnerabilities
+1. **Clone the repository**
+```bash
+git clone https://github.com/mdsarowar/Ticketing_System.git
+cd Ticketing_System
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Install PHP dependencies**
+```bash
+composer install
+```
 
-## License
+3. **Install Node dependencies**
+```bash
+npm install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Environment Configuration**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+5. **Run Migrations**
+```bash
+php artisan migrate --seed
+```
+
+6. **Create Storage Link**
+```bash
+php artisan storage:link
+```
+
+## Running the Application
+
+You need to run **2 separate terminals**:
+
+**Terminal 1 - Laravel Server:**
+```bash
+composer run dev
+```
+
+
+**Terminal 3 - Reverb WebSocket Server:**
+```bash
+php artisan reverb:start
+```
+
+## Default Users (After Seeding)
+
+**Admin Account:**
+- Email: `admin@test.com`
+- Password: `password`
+
+**Customer Account:**
+- Email: `customer@test.com`
+- Password: `password`
+
+Access the application at: `http://localhost:8000`
+
+## API Documentation
+URL for published documentation
+https://documenter.getpostman.com/view/48165300/2sB3Wjz4Rs
+
+
+## Author
+
+Your Name - S.M. Sarowar (https://github.com/mdsarowar)
+
+## Acknowledgments
+
+- Laravel Framework
+- Vue.js
+- Inertia.js
+- Tailwind CSS
