@@ -19,7 +19,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 
     // Ticket routes
-    Route::apiResource('tickets', TicketController::class);
+    // Ticket routes - আলাদা name দিয়ে
+    Route::apiResource('tickets', TicketController::class)->names([
+        'index' => 'api.tickets.index',
+        'store' => 'api.tickets.store',
+        'show' => 'api.tickets.show',
+        'update' => 'api.tickets.update',
+        'destroy' => 'api.tickets.destroy',
+    ]);
 
     // Comment routes
     Route::get('tickets/{ticket}/comments', [CommentController::class, 'index']);
