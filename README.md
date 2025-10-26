@@ -23,7 +23,7 @@ https://ticketingsystem-production-acd5.up.railway.app/
     - Edit and delete own comments
 
 - **Real-time Chat**
-    - WebSocket-based real-time messaging using Laravel Reverb
+    - WebSocket-based real-time messaging using Laravel Pusher
     - Customer ↔ Admin communication
     - Chat linked to specific tickets
     - Message read receipts
@@ -37,7 +37,7 @@ https://ticketingsystem-production-acd5.up.railway.app/
 **Backend:**
 - Laravel 12
 - Laravel Sanctum (Authentication)
-- Laravel Reverb (WebSocket)
+- Laravel Pusher (WebSocket)
 - MySQL (Database)
 
 **Frontend:**
@@ -101,10 +101,13 @@ composer run dev
 ```
 
 
-**Terminal 3 - Reverb WebSocket Server:**
-```bash
-php artisan reverb:start
-```
+[//]: # (**Terminal 3 - Reverb WebSocket Server:**)
+
+[//]: # (```bash)
+
+[//]: # (php artisan reverb:start)
+
+[//]: # (```)
 
 ## Default Users (After Seeding)
 
